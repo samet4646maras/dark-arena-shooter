@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -30,6 +31,13 @@ public class PlayerMovement : MonoBehaviour
 
     CharacterController controller;
 
+    [Header("Hp")]
+    public float PlayerHp = 5f;
+    public float StaticPlayerHp = 5f;
+    public Image hpBar;
+
+    
+
     void Start()
     {
         controller = GetComponent<CharacterController>();
@@ -42,6 +50,7 @@ public class PlayerMovement : MonoBehaviour
         GroundCheck();
         Move();
         MouseLook();
+        
     }
 
     void GroundCheck()
@@ -108,5 +117,33 @@ public class PlayerMovement : MonoBehaviour
 
         cameraTransform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
         transform.Rotate(Vector3.up * mouseX);
+    }
+
+
+    void OnCollisionEnter(Collision collision)
+    {
+       if(collision.gameObject.CompareTag("MagmaHead"))
+       {
+            int NegativeHp = 2;
+            HpSystem(NegativeHp);
+            Destroy(collision.gameObject);
+
+       }
+
+       else if(collision.gameObject.CompareTag("NormalHead"))
+       {
+            int NegativeHp = 1;
+            HpSystem(NegativeHp);
+            Destroy(collision.gameObject);
+        }
+
+    }
+
+
+    void HpSystem(int NegativeHp)
+    {
+        PlayerHp -= NegativeHp;
+        hpBar.fillAmount = PlayerHp / StaticPlayerHp;
+
     }
 }

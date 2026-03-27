@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class ShurikenThrower : MonoBehaviour
@@ -6,16 +7,26 @@ public class ShurikenThrower : MonoBehaviour
     public Transform firePoint;
     public Camera cam;
 
-    float cooldown = 0.5f;
-    float lastShotTime;
+    public float cooldown = 2f;
+    bool canShoot = true;
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0) && Time.time > lastShotTime + cooldown)
+        if (Input.GetMouseButton(0) && canShoot)
         {
-            ThrowShuriken();
-            lastShotTime = Time.time;
+            StartCoroutine(ShurikenSpawner());
         }
+    }
+
+    IEnumerator ShurikenSpawner()
+    {
+        canShoot = false;
+
+        ThrowShuriken();
+
+        yield return new WaitForSeconds(cooldown);
+
+        canShoot = true;
     }
 
     void ThrowShuriken()
@@ -26,11 +37,8 @@ public class ShurikenThrower : MonoBehaviour
             Quaternion.identity
         );
 
-        // EKRAN ORTASI
         Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
-        Vector3 direction;
-
-        direction = ray.direction;
+        Vector3 direction = ray.direction;
 
         shuriken.GetComponent<Shuriken>().SetDirection(direction);
     }

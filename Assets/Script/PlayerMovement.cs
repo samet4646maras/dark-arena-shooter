@@ -1,4 +1,5 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -36,10 +37,13 @@ public class PlayerMovement : MonoBehaviour
     public float StaticPlayerHp = 5f;
     public Image hpBar;
 
-    
+    [Header("Game Over")]
+    public TextMeshProUGUI GameOverText;
 
     void Start()
     {
+        GameOverText.text = "";
+
         controller = GetComponent<CharacterController>();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -144,6 +148,17 @@ public class PlayerMovement : MonoBehaviour
     {
         PlayerHp -= NegativeHp;
         hpBar.fillAmount = PlayerHp / StaticPlayerHp;
+        if (PlayerHp == 0)
+        {
+            StartDestroy();
+        }
+
+    }
+
+    void StartDestroy()
+    {
+        GameOverText.text = "Game over";
+        
 
     }
 }

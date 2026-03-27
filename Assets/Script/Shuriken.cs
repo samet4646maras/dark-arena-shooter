@@ -27,7 +27,11 @@ public class Shuriken : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         EnemyMovement enmyScript = other.GetComponent<EnemyMovement>();
-        Destroy(gameObject);
+        if(!other.gameObject.CompareTag("Player"))
+        {
+             Destroy(gameObject);
+        }
+       
         if (enmyScript != null)
         {
             enmyScript.HpSense();

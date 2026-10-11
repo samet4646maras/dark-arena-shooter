@@ -30,7 +30,7 @@ public class PlayerMovement : MonoBehaviour
     bool isDashing = false;
     bool CanSprint = true;
 
-    CharacterController controller;
+    public CharacterController controller;
 
     [Header("Hp")]
     public float PlayerHp = 5f;
@@ -158,7 +158,7 @@ public class PlayerMovement : MonoBehaviour
     void StartDestroy()
     {
         GameOverText.text = "Game over";
-        
+        Time.timeScale = 0f;
 
     }
 }

@@ -35,6 +35,7 @@ public class Shuriken : MonoBehaviour
         if (enmyScript != null)
         {
             enmyScript.HpSense();
+            CameraShake.icerik.Shake();
 
         }
         
